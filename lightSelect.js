@@ -12,12 +12,12 @@ function lightSelect(select) {
       template = document.createElement('div'),
       markup = '<input class="' + customClass + '_hidden" type="hidden" name="" value="" /> \
                 <div class="' + customClass + '_in"> \
-                  <span class="' + customClass + '_title">Москва</span> \
+                  <span class="' + customClass + '_title"></span> \
                   <i class="' + customClass + '_arrow"></i> \
                 </div> \
                 <ul class="' + customClass + '_list"> \
                 </ul>',
-      selectClassList, selectName, selectOption, tempElem, tempElemUl, activeElem,
+      selectClassList, selectName, selectOption, tempElem, tempElemUl, activeElem, completeElem,
       hasSelected = false;
 
       template.insertAdjacentHTML("afterBegin", markup);
@@ -51,22 +51,9 @@ function lightSelect(select) {
     tempElem.querySelector('.' + customClass + '_hidden').value = activeElem.getAttribute('data-value');
     tempElem.querySelector('.' + customClass + '_title').innerHTML = activeElem.innerHTML;
     
-    var elem = selects[i].parentNode.replaceChild(tempElem, selects[i]);
+    
+    
+    completeElem = selects[i].parentNode.replaceChild(tempElem, selects[i]);
 
   }
 }
-
-
-
-// <div class="select">
-//   <input class="select_hidden" type="hidden" name="" value="" />
-//   <div class="select_in">
-//     <span class="select_title">Москва</span>
-//     <i class="select_arrow"></i>
-//   </div>
-//   <ul class="select_list">
-//     <li class="is-active" data-value="1">Москва</li>
-//     <li data-value="2">Санкт-Петербург</li>
-//     <li data-value="3">Волгоград</li>
-//   </ul>
-// </div>
