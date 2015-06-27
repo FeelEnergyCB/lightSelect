@@ -17,10 +17,12 @@ function lightSelect(select) {
                 </div> \
                 <ul class="' + customClass + '_list"> \
                 </ul>',
-      selectClassList, selectName, selectOption, tempElem, tempElemUl, activeElem,
+      selectClassList, selectName, selectOption, tempElem, tempElemUl, activeElem, 
       hasSelected = false;
 
       template.insertAdjacentHTML("afterBegin", markup);
+
+  // Style
 
   for (var i = 0, ilen = selects.length; i < ilen; i++) {
 
@@ -51,9 +53,25 @@ function lightSelect(select) {
     tempElem.querySelector('.' + customClass + '_hidden').value = activeElem.getAttribute('data-value');
     tempElem.querySelector('.' + customClass + '_title').innerHTML = activeElem.innerHTML;
     
-    var elem = selects[i].parentNode.replaceChild(tempElem, selects[i]);
+
+    // behaivior
+
+    tempElem.querySelector('.' + customClass + '_in').addEventListener(click, clickHandler);
+
+
+    // Finish
+
+    selects[i].parentNode.replaceChild(tempElem, selects[i])
 
   }
+}
+
+function clickHandler() {
+  
+}
+
+function selectHandler() {
+  
 }
 
 
