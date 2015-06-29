@@ -86,6 +86,8 @@
     }
 
     function openSel(event) {
+      event.stopPropagation();
+
       var node = this;
 
       while ( node.className.indexOf(customClass + ' ') < 0 ) {
@@ -99,7 +101,10 @@
     }
 
     function selOption(event) {
+      event.stopPropagation();
+
       if ( event.target.className.indexOf(customClass + '_item') < 0 ) return;
+
       var node = event.target,
           valueNode = node.getAttribute('data-value'),
           textNode = node.innerHTML,
@@ -120,6 +125,12 @@
 
       node.querySelector('.' + customClass + '_hidden').value = valueNode;
       node.querySelector('.' + customClass + '_title').innerHTML = textNode;
+
+
+      while ( node.className.indexOf(customClass + ' ') < 0 ) {
+        node = node.parentNode;
+      }
+      node.className =  node.className.replace(/ is-opened/g, "");
     }
 
     document.addEventListener('click', function(event) {
