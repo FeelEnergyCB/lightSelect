@@ -1,35 +1,11 @@
 'use strict';
-
+ 
 (function(window) {
 
-  !window.addEventListener && (function (WindowPrototype, DocumentPrototype, ElementPrototype, addEventListener, removeEventListener, dispatchEvent, registry) {
-    WindowPrototype[addEventListener] = DocumentPrototype[addEventListener] = ElementPrototype[addEventListener] = function (type, listener) {
-      var target = this;
-   
-      registry.unshift([target, type, listener, function (event) {
-        event.currentTarget = target;
-        event.preventDefault = function () { event.returnValue = false };
-        event.stopPropagation = function () { event.cancelBubble = true };
-        event.target = event.srcElement || target;
-   
-        listener.call(target, event);
-      }]);
-   
-      this.attachEvent("on" + type, registry[0][3]);
-    };
-   
-    WindowPrototype[removeEventListener] = DocumentPrototype[removeEventListener] = ElementPrototype[removeEventListener] = function (type, listener) {
-      for (var index = 0, register; register = registry[index]; ++index) {
-        if (register[0] == this && register[1] == type && register[2] == listener) {
-          return this.detachEvent("on" + type, registry.splice(index, 1)[0][3]);
-        }
-      }
-    };
-   
-    WindowPrototype[dispatchEvent] = DocumentPrototype[dispatchEvent] = ElementPrototype[dispatchEvent] = function (eventObject) {
-      return this.fireEvent("on" + eventObject.type, eventObject);
-    };
-  })(Window.prototype, HTMLDocument.prototype, Element.prototype, "addEventListener", "removeEventListener", "dispatchEvent", []);
+  if ( !document.addEventListener ) {
+    window.lightSelect = function() {};
+    return;
+  }
 
   var lightSelect =  function(select) {
 
@@ -87,13 +63,12 @@
 
     function openSel(event) {
       event.stopPropagation();
-
       var node = this;
 
-      while ( node.className.indexOf(customClass + ' ') < 0 ) {
-        node = node.parentNode;
-      }
+      node = findParent(node);
+
       if ( node.className.indexOf('is-opened') < 0 ) {
+        closeAll();
         node.className += ' is-opened';
       } else {
         node.className =  node.className.replace(/ is-opened/g, "");
@@ -119,62 +94,40 @@
       }
 
       node.className += ' is-active';
-      while ( node.className.indexOf(customClass + ' ') < 0 ) {
-        node = node.parentNode;
-      }
+
+      node = findParent(node);
 
       node.querySelector('.' + customClass + '_hidden').value = valueNode;
       node.querySelector('.' + customClass + '_title').innerHTML = textNode;
 
-
-      while ( node.className.indexOf(customClass + ' ') < 0 ) {
-        node = node.parentNode;
-      }
-      node.className =  node.className.replace(/ is-opened/g, "");
+      closeAll();
     }
 
-    document.addEventListener('click', function(event) {
-      var node = event.target,
-          listNodes = document.querySelectorAll( '.' + customClass );
+    function closeAll() {
+      var listNodes = document.querySelectorAll( '.' + customClass );
 
       for (var i = 0, len = listNodes.length; i < len; i++) {
         listNodes[i].className =  listNodes[i].className.replace(/ is-opened/g, "");
       }
+    }
 
-      if ( event.target.className.indexOf(customClass) >= 0) {
-
-        while ( node.className.indexOf(customClass + ' ') < 0 ) {
-          node = node.parentNode;
-        }
-        if ( node.className.indexOf('is-opened') < 0 ) {
-          node.className += ' is-opened';
-        }
-
+    function findParent(elem) {
+      while ( elem.className.indexOf(customClass + ' ') < 0 ) {
+        elem = elem.parentNode;
       }
-    });
+      return elem;
+    }
+
+    document.addEventListener('click', closeAll);
 
 
     document.addEventListener('keyup', function(event) {
-      var listNodes;
       if (event.keyCode !== 27) return;
-
-      listNodes = document.querySelectorAll( '.' + customClass );
-      for (var i = 0, len = listNodes.length; i < len; i++) {
-        listNodes[i].className =  listNodes[i].className.replace(/ is-opened/g, "");
-      }
+      closeAll();
     });
 
   }
 
-
-
   window.lightSelect = lightSelect;
 
 }(window));
-
-
-
-
-lightSelect({
-  selector: '.select'
-});
