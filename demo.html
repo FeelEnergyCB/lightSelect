@@ -7,6 +7,7 @@
     body > div {
       padding: 50px 0;
       text-align: center;
+      font-family: sans-serif;
     }
     select {
       display: inline-block;
@@ -19,6 +20,7 @@
   width: 260px;
   height: 48px;
   display: inline-block;
+  margin-bottom: 40px;
 }
   .lightSelect_in {
     position: relative;
@@ -56,7 +58,7 @@
     padding: 0;
     top: 100%;
     border: 1px solid #ccc;
-    /*display: none;*/
+    display: none;
     margin: 5px 0 0 0;
     height: auto;
     max-height: 200px;
@@ -67,16 +69,19 @@
     border-radius: 2px;
     z-index: 1000;
   }
-    .lightSelect_list li {
-      padding: 7px 30px 7px 12px;
-      color: #999;
-      font-size: 14px;
-      line-height: 1;
-      cursor: pointer;
+  .lightSelect.is-opened .lightSelect_list {
+    display: block;
+  }
+  .lightSelect_item{
+    padding: 7px 30px 7px 12px;
+    color: #999;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+  }
+    .lightSelect_item:hover {
+      background: #eee;
     }
-      .lightSelect_list li:hover {
-        background: #eee;
-      }
 
 
   </style>
@@ -84,6 +89,16 @@
 <body>
   <div>
     <select name="sel" class="select super puper">
+      <option value="1">Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+      <option value="4">Option 4</option>
+    </select>
+  </div>
+
+
+  <div>
+    <select name="sel" class="select hel super puper">
       <option value="1">Option 1</option>
       <option value="2">Option 2</option>
       <option value="3">Option 3</option>
