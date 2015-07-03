@@ -1,13 +1,12 @@
 'use strict';
  
-(function(window) {
+var lightSelect = (function() {
 
   if ( !document.addEventListener ) {
-    window.lightSelect = function() {};
-    return;
+    return function() {};
   }
 
-  var lightSelect =  function(select) {
+  return function(select) {
 
     var selector = select.selector || 'select',
         customClass = select.customClass || 'lightSelect',
@@ -20,8 +19,8 @@
                   </div> \
                   <ul class="' + customClass + '_list"> \
                   </ul>',
-        selectClassList, selectName, selectOption, tempElem, tempElemUl, tempElemLis, activeElem, completeElem,
-        hasSelected = false;
+        hasSelected = false,
+        selectClassList, selectName, selectOption, tempElem, tempElemUl, tempElemLis, activeElem, completeElem;
 
         template.insertAdjacentHTML("afterBegin", markup);
 
@@ -31,14 +30,16 @@
 
       selectClassList = selects[i].className;
       selectName = selects[i].name;
+      selectOption = selects[i].querySelectorAll( 'option' );
 
       tempElem.className = customClass + ' ' + selectClassList;
       tempElem.querySelector( '.' + customClass + '_hidden' ).name = selectName;
-      selectOption = selects[i].querySelectorAll( 'option' );
       tempElemUl = tempElem.querySelector( '.' + customClass + '_list' );
 
       for (var j = 0, jlen = selectOption.length; j < jlen; j++) {
-        tempElemUl.insertAdjacentHTML("beforeEnd", '<li class="' + customClass + '_item" data-value="' + selectOption[j].value +'">' + selectOption[j].innerHTML + '</li> ');
+        tempElemUl.insertAdjacentHTML("beforeEnd", 
+          '<li class="' + customClass + '_item" data-value="' + selectOption[j].value +'">' + selectOption[j].innerHTML + '</li>'
+        );
         if ( selectOption[j].selected ) {
           hasSelected = true;
           tempElemUl.querySelector('li:last-child').className += ' is-active';
@@ -63,6 +64,7 @@
 
     function openSel(event) {
       event.stopPropagation();
+
       var node = this;
 
       node = findParent(node);
@@ -84,8 +86,6 @@
           valueNode = node.getAttribute('data-value'),
           textNode = node.innerHTML,
           listLis = this.querySelectorAll('.' + customClass + '_item');
-
-
 
       for (var i = 0, len = listLis.length; i < len; i++) {
         if ( listLis[i].className.indexOf('is-active') >= 0 ) {
@@ -120,7 +120,6 @@
 
     document.addEventListener('click', closeAll);
 
-
     document.addEventListener('keyup', function(event) {
       if (event.keyCode !== 27) return;
       closeAll();
@@ -128,6 +127,4 @@
 
   }
 
-  window.lightSelect = lightSelect;
-
-}(window));
+}());
