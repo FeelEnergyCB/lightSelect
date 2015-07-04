@@ -8,5 +8,5 @@ lightSelect({
 });
 ```
 
-### Browsers:
+### Browser support:
 IE 9+ / Firefox / Chrome  / Safari
