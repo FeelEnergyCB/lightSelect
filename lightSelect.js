@@ -12,12 +12,12 @@ var lightSelect = (function() {
         customClass = select.customClass || 'lightSelect',
         selects = document.querySelectorAll(selector),
         template = document.createElement('div'),
-        markup = '<input class="' + customClass + '_hidden" type="hidden" name="" value="" /> \
-                  <div class="' + customClass + '_in"> \
-                    <span class="' + customClass + '_title"></span> \
-                    <i class="' + customClass + '_arrow"></i> \
+        markup = '<input class="' + customClass + '__hidden" type="hidden" name="" value="" /> \
+                  <div class="' + customClass + '__in"> \
+                    <span class="' + customClass + '__title"></span> \
+                    <i class="' + customClass + '__arrow"></i> \
                   </div> \
-                  <ul class="' + customClass + '_list"> \
+                  <ul class="' + customClass + '__list"> \
                   </ul>',
         hasSelected = false,
         selectClassList, selectName, selectOption, tempElem, tempElemUl, activeElem, completeElem;
@@ -34,33 +34,33 @@ var lightSelect = (function() {
       selectOption = selects[i].querySelectorAll('option');
 
       tempElem.className = customClass + ' ' + selectClassList;
-      tempElem.querySelector( '.' + customClass + '_hidden' ).name = selectName;
-      tempElemUl = tempElem.querySelector( '.' + customClass + '_list' );
+      tempElem.querySelector( '.' + customClass + '__hidden' ).name = selectName;
+      tempElemUl = tempElem.querySelector( '.' + customClass + '__list' );
 
       for (var j = 0, jlen = selectOption.length; j < jlen; j++) {
         tempElemUl.insertAdjacentHTML('beforeEnd', '<li class="'
-          + customClass + '_item" data-value="'
+          + customClass + '__item" data-value="'
           + selectOption[j].value +'">'
           + selectOption[j].innerHTML + '</li>');
 
         if (selectOption[j].selected) {
           hasSelected = true;
-          tempElemUl.querySelector('li:last-child').className += ' is-active';
+          tempElemUl.querySelector('li:last-child').className += ' ' + customClass + '__item_active';
         }
 
       }
 
       if ( !hasSelected ) {
-        tempElem.querySelector('.' + customClass + '_item:first-child').className += ' is-active';
+        tempElem.querySelector('.' + customClass + '__item:first-child').className += ' ' + customClass + '__item_active';
       }
 
-      activeElem = tempElem.querySelector('.' + customClass + '_item.is-active');
+      activeElem = tempElem.querySelector('.' + customClass + '__item_active');
 
-      tempElem.querySelector('.' + customClass + '_hidden').value = activeElem.getAttribute('data-value');
-      tempElem.querySelector('.' + customClass + '_title').innerHTML = activeElem.innerHTML;
+      tempElem.querySelector('.' + customClass + '__hidden').value = activeElem.getAttribute('data-value');
+      tempElem.querySelector('.' + customClass + '__title').innerHTML = activeElem.innerHTML;
 
-      tempElem.querySelector('.' + customClass + '_in').addEventListener('click', openSel, false);
-      tempElem.querySelector('.' + customClass + '_list').addEventListener('click', selOption, false);
+      tempElem.querySelector('.' + customClass + '__in').addEventListener('click', openSel, false);
+      tempElem.querySelector('.' + customClass + '__list').addEventListener('click', selOption, false);
 
       completeElem = selects[i].parentNode.replaceChild(tempElem, selects[i]);
 
@@ -69,40 +69,41 @@ var lightSelect = (function() {
     function openSel(event) {
       event.stopPropagation();
 
-      var node = this;
+      var node = this,
+          cl = customClass + '_opened';
 
       node = findParent(node);
 
-      if ( node.className.indexOf('is-opened') < 0 ) {
+      if ( node.className.indexOf(cl) < 0 ) {
         closeAll();
-        node.className += ' is-opened';
+        node.className += ' ' + cl;
       } else {
-        node.className =  node.className.replace(/ is-opened/g, "");
+        node.className =  node.className.replace(new RegExp(' ' + cl, 'g'), '');
       }
     }
 
     function selOption(event) {
       event.stopPropagation();
 
-      if ( event.target.className.indexOf(customClass + '_item') < 0 ) return;
+      if ( event.target.className.indexOf(customClass + '__item') < 0 ) return;
 
       var node = event.target,
           valueNode = node.getAttribute('data-value'),
           textNode = node.innerHTML,
-          listLis = this.querySelectorAll('.' + customClass + '_item');
+          listLis = this.querySelectorAll('.' + customClass + '__item');
 
       for (var i = 0, len = listLis.length; i < len; i++) {
-        if ( listLis[i].className.indexOf('is-active') >= 0 ) {
-          listLis[i].className =  node.className.replace(/ is-active/g, "");
+        if ( listLis[i].className.indexOf(customClass + '__item_active') >= 0 ) {
+          listLis[i].className =  node.className.replace(new RegExp(' ' + customClass + '__item_active', 'g'), '');
         }
       }
 
-      node.className += ' is-active';
+      node.className += ' ' + customClass + '__item_active';
 
       node = findParent(node);
 
-      node.querySelector('.' + customClass + '_hidden').value = valueNode;
-      node.querySelector('.' + customClass + '_title').innerHTML = textNode;
+      node.querySelector('.' + customClass + '__hidden').value = valueNode;
+      node.querySelector('.' + customClass + '__title').innerHTML = textNode;
 
       closeAll();
     }
@@ -111,7 +112,7 @@ var lightSelect = (function() {
       var listNodes = document.querySelectorAll( '.' + customClass );
 
       for (var i = 0, len = listNodes.length; i < len; i++) {
-        listNodes[i].className =  listNodes[i].className.replace(/ is-opened/g, "");
+        listNodes[i].className =  listNodes[i].className.replace(new RegExp(' ' + customClass + '_opened', 'g'), '');
       }
     }
 
