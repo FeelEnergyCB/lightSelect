@@ -1,5 +1,8 @@
 # lightSelect
 
+### Demo:
+http://feelenergycb.github.io/lightSelect
+
 ### Usage:
 ```
 lightSelect({
