@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body, html{
+      height: 100%;
+      margin: 0;
+      font-size: 0;
+      line-height: 0;
+    }
+    .wrapper {
+      height: 100%;
+      text-align: center;
+      font-family: sans-serif;
+    }
+    .wrapper::before {
+      content: '';
+      vertical-align: middle;
+      height: 100%;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <select name="selectName" class="my-select">
+      <option value="1" selected>Option 1</option>
+      <option value="2">Option 2</option>
+      <option value="3">Option 3</option>
+      <option value="4">Option 4</option>
+    </select>
+  </div>
+  <script src="lightSelect.min.js"></script>
+  <script>
+    lightSelect({ selector: '.my-select' });
+  </script>
+</body>
+</html>
