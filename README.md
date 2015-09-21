@@ -1,7 +1,7 @@
 # lightSelect
 
 ### Demo:
-http://feelenergycb.github.io/lightSelect
+http://mikitalisavets.me/lightSelect
 
 ### Usage:
 ```
