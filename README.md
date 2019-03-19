@@ -1,7 +1,7 @@
 # lightSelect
 
 ### Demo:
-http://mikitalisavets.me/lightSelect
+https://mikitalisavets.me/lightSelect
 
 ### Usage:
 ```
