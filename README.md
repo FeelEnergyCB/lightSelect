@@ -1,7 +1,9 @@
 # lightSelect
 
+#### Customization of default select element
+
 ### Demo:
-https://mikitalisavets.me/lightSelect
+https://mikitalisavets.me/light-select
 
 ### Usage:
 ```
